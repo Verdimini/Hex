@@ -18,31 +18,13 @@ typedef struct
 }Dimensions;
 
 
-void pause()
-{
-    int continuer = 1;
-    SDL_Event event;
-
-    while (continuer)
-    {
-        SDL_WaitEvent(&event);
-        switch(event.type)
-        {
-            case SDL_QUIT:
-                continuer = 0;
-        }
-    }
-}
-
-
-
 int main (int argc, char *argv[])
 {
 
     Dimensions fenetre;
     Uint8  video_bpp = 32;
-    SDL_Surface *ecran = NULL, *plateau = NULL, *pion = NULL, *texte = NULL;
-    SDL_Rect positionPlateau, positionPion, positionTexte;
+    SDL_Surface *ecran = NULL, *plateau = NULL, *texte = NULL;
+    SDL_Rect positionPlateau, positionTexte;
     SDL_Event event;
     TTF_Font *police = NULL;
 
@@ -84,7 +66,6 @@ int main (int argc, char *argv[])
     SDL_WM_SetCaption("Jeu de HEX", NULL);
 
     plateau = IMG_Load("Images/hex.png");
-    pion = IMG_Load("Images/button-red22.png");
 
     police = TTF_OpenFont("font_police/OptimusPrinceps.ttf", 28);
     texte = TTF_RenderText_Blended(police, "MENU", couleurNoire);
@@ -103,11 +84,6 @@ int main (int argc, char *argv[])
                 continuer = 0;
                 break;
 
-            case SDL_MOUSEBUTTONUP:
-
-                positionPion.x = event.button.x;
-                positionPion.y = event.button.y;
-                break;
         }
 
         positionTexte.x = 20;
@@ -115,7 +91,6 @@ int main (int argc, char *argv[])
 
         SDL_FillRect(ecran, NULL, SDL_MapRGB(ecran->format, 255, 255, 255));
         SDL_BlitSurface(plateau, NULL, ecran, &positionPlateau);
-        SDL_BlitSurface(pion, NULL, ecran, &positionPion);
         SDL_BlitSurface(texte, NULL, ecran, &positionTexte);
         SDL_Flip(ecran);
     }
